@@ -1,0 +1,17 @@
+const express = require('express');
+const router = express.Router();
+const {
+  createEvent,
+  getEvents,
+  getEventsByClub,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+} = require('../controllers/eventController');
+const { protect, admin } = require('../middleware/authMiddleware');
+
+router.route('/').get(getEvents).post(protect, admin, createEvent);
+router.route('/club/:clubId').get(getEventsByClub);
+router.route('/:id').get(getEventById).patch(protect, admin, updateEvent).delete(protect, admin, deleteEvent);
+
+module.exports = router;
